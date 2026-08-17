@@ -29,14 +29,16 @@ export default function Navbar() {
         return () => window.removeEventListener('scroll', onScroll);
     }, []);
 
+    
+
     //active links
     function isActive(href) {
         return href === '/' ? pathname === '/' : pathname.startsWith(href);
     }
 
     return (
-        <nav className={`fixed inset-x-0 top-0 z-30 px-6 py-5 transition-colors duration-300 md:px-10 lg:px-16 ${scrolled ? 'bg-ink/90 backdrop-blur-sm shadow-sm' : 'bg-transparent'}`}>
-            <div className="flex items-center justify-between">
+        <nav className={`fixed inset-x-0 top-0 z-40 px-6 py-5 transition-colors duration-300 md:px-10 lg:px-16 ${scrolled ? 'bg-ink/90 backdrop-blur-sm shadow-sm' : 'bg-transparent'}`}>
+            <div className="relative z-40 flex items-center justify-between">
                 <Link href="/" className="font-display text-2xl font-medium tracking-tight text-ivory">
                 Hotel<span className="text-brass">ier</span>
                 </Link>
@@ -68,15 +70,18 @@ export default function Navbar() {
             </div>
 
             {open && (
-                <div className="mt-4 flex flex-col gap-1 rounded-md bg-ink/95 p-6 backdrop-blur-sm lg:hidden">
-                {navLinks.map((l) => (
-                    <Link key={l.label} href={l.href} onClick={() => setOpen(false)} className={`py-2.5 font-sans text-sm transition ${isActive(l.href) ? 'text-brass' : 'text-ivory/90 hover:text-brass'}`}>
-                    {l.label}
-                    </Link>
-                ))}
-                <a href={`tel:+2348168973060`} className="mt-2 border-t border-ivory/10 pt-4 font-mono text-xs text-ivory/70 md:hidden">
-                    +2348168973060
-                </a>
+                <div className='relative'>
+                    <div className='bg-black/40 fixed inset-0 z-10 backdrop-blur-2xl h-full w-full' />
+                    <div className="relative mt-4 flex flex-col gap-1 rounded-md bg-ink/95 p-6 backdrop-blur-lg lg:hidden z-20">
+                        {navLinks.map((l) => (
+                            <Link key={l.label} href={l.href} onClick={() => setOpen(false)} className={`py-2.5 font-sans text-sm transition w-fit ${isActive(l.href) ? 'text-brass' : 'text-ivory/90 hover:text-brass'}`}>
+                            {l.label}
+                            </Link>
+                        ))}
+                        <a href={`tel:+2348168973060`} className="mt-2 border-t border-ivory/10 pt-4 font-mono text-xs text-ivory/70 md:hidden">
+                            +2348168973060
+                        </a>
+                    </div>
                 </div>
             )}
         </nav>
