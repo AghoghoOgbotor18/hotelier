@@ -4,6 +4,7 @@
 import { useEffect, useState } from 'react';
 import Image from 'next/image';
 import BookingSearchBar from './BookingSearchBar';
+import Link from 'next/link';
 
 const images = [
   '/images/hero1.webp',
@@ -23,7 +24,7 @@ export default function Hero() {
     }, []);
 
     return (
-        <section className="relative h-screen overflow-hidden">
+        <section className="relative min-h-screen overflow-hidden flex justify-center items-center pb-20">
         {images.map((src, index) => (
             <div key={src} className={`absolute inset-0 transition-opacity duration-[1500ms] ease-in-out ${index === currentImage ? 'opacity-100' : 'opacity-0'}`}>
                 <Image
@@ -51,12 +52,12 @@ export default function Hero() {
                 </p>
 
                 <div className="mt-9 flex flex-wrap items-center justify-center gap-4">
-                <a href="/rooms" className="rounded-sm bg-brass px-7 py-3.5 font-sans text-sm font-semibold uppercase tracking-wide text-ink transition hover:opacity-90">
+                <Link href="/rooms" className="rounded-sm bg-brass px-7 py-3.5 font-sans text-sm font-semibold uppercase tracking-wide text-ink transition hover:opacity-90">
                     Book Your Stay
-                </a>
-                <a href="#rooms" className="rounded-sm border border-ivory/30 px-7 py-3.5 font-sans text-sm text-ivory transition hover:border-ivory/70">
+                </Link>
+                <Link href="/rooms" className="rounded-sm border border-ivory/30 px-7 py-3.5 font-sans text-sm text-ivory transition hover:border-ivory/70">
                     View Rooms
-                </a>
+                </Link>
                 </div>
             </div>
 
@@ -66,7 +67,7 @@ export default function Hero() {
                 ))}
             </div>
 
-            <div className="absolute inset-x-0 bottom-5 z-20 flex translate-y-1/2 justify-center px-4">
+            <div className="absolute inset-x-0 bottom-15 z-20 flex translate-y-1/2 justify-center px-4">
                 <div className="w-full max-w-5xl">
                     <BookingSearchBar />
                 </div>
