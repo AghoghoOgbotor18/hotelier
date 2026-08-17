@@ -1,8 +1,8 @@
 // src/app/layout.js
 import { Fraunces, Inter, Space_Mono } from "next/font/google";
 import "./globals.css";
-import Navbar from "./components/Footer";
-import Footer from "./components/Navbar";
+import Navbar from "./components/Navbar";
+import Footer from "./components/Footer";
 
 const fraunces = Fraunces({
   variable: "--font-fraunces",
@@ -24,9 +24,9 @@ const spaceMono = Space_Mono({
 });
 
 export const metadata = {
-  title: "Hotelier — Book a room, no account needed",
+  title: "Hotelier — Comfort . Luxury . Memories",
   description:
-    "A hotel booking experience with real-time availability and no sign-up required.",
+    "Book your perfect stay at Hotelier. Explore luxurious rooms, check availability, view amenities, and make secure hotel reservations online.",
 };
 
 export default function RootLayout({ children }) {
