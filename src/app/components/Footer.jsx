@@ -92,9 +92,9 @@ export default function Footer() {
                     </div>
                 </div>
 
-                <div className="mt-16 flex flex-col items-start justify-between gap-3 border-t border-ivory/10 pt-8 font-mono text-xs text-ivory/40 md:flex-row md:items-center">
+                <div className="mt-16 flex flex-col items-center justify-between gap-3 border-t border-ivory/10 pt-8 font-mono text-xs text-ivory/40 md:flex-row">
                     <p>&copy; {new Date().getFullYear()} Hotelier. All rights reserved.</p>
-                    <p>Reservations <a href={`tel:${phones[0].replace(/\s/g, '')}`} className="text-brass transition hover:opacity-80">{phones}</a></p>
+                    <p>Reservations <a href={`tel:${phones.replace(/\s/g, '')}`} className="text-brass transition hover:opacity-80">{phones}</a></p>
                 </div>
             </div>
         </footer>
