@@ -1,4 +1,3 @@
-// src/components/About.jsx
 import Image from 'next/image';
 import Link from 'next/link';
 
@@ -10,7 +9,7 @@ const highlights = [
 
 export default function About() {
     return (
-        <section id="about" className="bg-background px-8 py-28 md:px-16">
+        <section className="bg-background px-8 py-28 md:px-16">
             <div className="mx-auto grid max-w-6xl grid-cols-1 items-center gap-16 lg:grid-cols-2 lg:gap-20">
                 <div className="relative mx-auto w-full max-w-md lg:max-w-none">
                     <div className="relative aspect-[4/5] w-full overflow-hidden rounded-md shadow-xl">

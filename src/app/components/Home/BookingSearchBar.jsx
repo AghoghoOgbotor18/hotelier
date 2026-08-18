@@ -37,7 +37,7 @@ export default function BookingSearchBar() {
     return (
         <form
         onSubmit={handleCheck}
-        className="grid grid-cols-2 gap-x-6 gap-y-5 rounded-lg border border-brass/15 bg-ink/95 p-6 shadow-2xl backdrop-blur-xl sm:grid-cols-3 lg:flex lg:items-center lg:gap-0 lg:p-3"
+        className="grid grid-cols-2 gap-x-6 gap-y-5 rounded-lg -mt-25 md:-mt-10 m-10 border border-brass/15 bg-ink/95 p-6 shadow-2xl backdrop-blur-xl sm:grid-cols-3 lg:flex lg:items-center lg:gap-0 lg:p-3"
         >
             <label className="flex flex-col gap-1.5 lg:flex-1 lg:border-r lg:border-ivory/10 lg:px-5 lg:py-2">
                 <FieldLabel>Arrival Date</FieldLabel>
