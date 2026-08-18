@@ -3,7 +3,8 @@
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { FaBars, FaTimes } from "react-icons/fa"
+import { FaBars, FaTimes } from "react-icons/fa";
+import Image from 'next/image';
 
 const navLinks = [
     { label: 'Home', href: '/' },
@@ -39,9 +40,12 @@ export default function Navbar() {
     return (
         <nav className={`fixed inset-x-0 top-0 z-40 px-6 py-5 transition-colors duration-300 md:px-10 lg:px-16 ${scrolled ? 'bg-ink/90 backdrop-blur-sm shadow-lg' : 'bg-transparent'}`}>
             <div className="relative z-40 flex items-center justify-between">
-                <Link href="/" className="font-display text-2xl font-medium tracking-tight text-ivory">
-                Hotel<span className="text-brass">ier</span>
-                </Link>
+                <div className='flex justify-center items-center'>
+                    <img src="/images/hotelier-icon.png" className={` ${scrolled ? "w-8 -mt-3" : "w-10 -mt-4"}`} />
+                    <Link href="/" className="font-display text-2xl font-medium tracking-tight text-ivory">
+                    Hotel<span className="text-brass">ier</span>
+                    </Link>
+                </div>
 
                 <div className="hidden items-center gap-8 font-sans text-sm lg:flex">
                     {navLinks.map((l) => (
