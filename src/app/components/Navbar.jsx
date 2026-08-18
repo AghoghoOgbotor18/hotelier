@@ -37,7 +37,7 @@ export default function Navbar() {
     }
 
     return (
-        <nav className={`fixed inset-x-0 top-0 z-40 px-6 py-5 transition-colors duration-300 md:px-10 lg:px-16 shadow-2xl ${scrolled ? 'bg-ink/90 backdrop-blur-sm shadow-sm' : 'bg-transparent'}`}>
+        <nav className={`fixed inset-x-0 top-0 z-40 px-6 py-5 transition-colors duration-300 md:px-10 lg:px-16 ${scrolled ? 'bg-ink/90 backdrop-blur-sm shadow-lg' : 'bg-transparent'}`}>
             <div className="relative z-40 flex items-center justify-between">
                 <Link href="/" className="font-display text-2xl font-medium tracking-tight text-ivory">
                 Hotel<span className="text-brass">ier</span>

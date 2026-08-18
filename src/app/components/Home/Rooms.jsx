@@ -1,4 +1,5 @@
 import RoomCard from './Roomcard';
+import Link from 'next/link';
 
 const rooms = [
     {
@@ -113,6 +114,14 @@ const rooms = [
             {rooms.map((room) => (
                 <RoomCard key={room.slug} room={room} />
             ))}
+            </div>
+            <div className="mt-14 flex justify-center">
+                <Link
+                    href="/rooms"
+                    className="rounded-sm bg-ink px-8 py-3.5 font-sans text-sm font-semibold uppercase tracking-wide text-ivory transition hover:bg-brass hover:text-ink"
+                >
+                    View All Rooms
+                </Link>
             </div>
         </div>
         </section>

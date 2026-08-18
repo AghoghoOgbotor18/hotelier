@@ -1,9 +1,11 @@
 import About from "./components/Home/About";
 import Bookings from "./components/Home/Bookings";
 import BookingSearchBar from "./components/Home/BookingSearchBar";
+import Faq from "./components/Home/FAQ";
 import Hero from "./components/Home/Hero";
 import Rooms from "./components/Home/Rooms";
 import Services from "./components/Home/Services";
+import Testimonials from "./components/Home/Testimonials";
 
 
 export default function Home(){
@@ -22,6 +24,8 @@ export default function Home(){
       <Rooms />
       <Bookings />
       <Services />
+      <Testimonials />
+      <Faq />
     </>
   )
 
