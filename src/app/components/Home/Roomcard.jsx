@@ -63,14 +63,14 @@ export default function RoomCard({ room }) {
                             <Link
                             href={`${detailsHref}#book`}
                             onClick={(e) => e.stopPropagation()}
-                            className="flex-1 rounded-sm bg-ink px-3 py-2 text-center font-sans text-xs font-semibold uppercase tracking-wide text-ivory transition hover:bg-brass hover:text-ink"
+                            className="flex-1 rounded-sm bg-ink px-3 py-2.5 text-center font-sans text-xs font-semibold uppercase tracking-wide text-ivory transition hover:bg-brass hover:text-ink"
                             >
                             Book Now
                             </Link>
                         ) : (
                             <span
                             onClick={(e) => e.stopPropagation()}
-                            className="flex-1 cursor-not-allowed rounded-sm border border-ink/15 px-3 py-2 text-center font-sans text-xs uppercase tracking-wide text-stone/60"
+                            className="flex-1 cursor-not-allowed rounded-sm border border-ink/15 px-3 py-2.5 text-center font-sans text-xs uppercase tracking-wide text-stone/60"
                             >
                             Unavailable
                             </span>
@@ -78,7 +78,7 @@ export default function RoomCard({ room }) {
                         <Link
                         href={detailsHref}
                         onClick={(e) => e.stopPropagation()}
-                        className="flex-1 flex items-center gap-1.5 rounded-sm border border-ink/15 px-3 py-2 text-center font-sans text-xs uppercase tracking-wide text-ink transition hover:border-brass hover:text-brass group justify-center"
+                        className="flex-1 flex items-center gap-1.5 rounded-sm border border-ink/15 px-3 py-2.5 text-center font-sans text-xs uppercase tracking-wide text-ink transition hover:border-brass hover:text-brass group justify-center"
                         >
                             Details
                             <FaArrowRight className='group-hover:translate-x-1' />

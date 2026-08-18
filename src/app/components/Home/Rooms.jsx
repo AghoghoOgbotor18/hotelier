@@ -76,7 +76,7 @@ const rooms = [
         size: '26m²',
         guests: 2,
         price: 52000,
-        image: '/images/pool.webp',
+        image: '/images/poolroom.webp',
         status: 'available',
     },
     {
