@@ -2,6 +2,7 @@ import About from "./components/Home/About";
 import Bookings from "./components/Home/Bookings";
 import BookingSearchBar from "./components/Home/BookingSearchBar";
 import Hero from "./components/Home/Hero";
+import Rooms from "./components/Home/Rooms";
 
 export default function Home(){
 
@@ -16,6 +17,7 @@ export default function Home(){
       </div>
 
       <About />
+      <Rooms />
       <Bookings />
     </>
   )
