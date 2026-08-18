@@ -12,7 +12,7 @@ const benefits = [
 
 export default function Bookings() {
     return (
-        <section className="bg-ink px-8 py-28 md:px-16">
+        <section className="bg-ink px-4 py-28 md:px-10">
         <div className="mx-auto max-w-9xl">
             <div className="mb-14 text-center">
             <p className="mb-3 flex items-center justify-center gap-2 font-mono text-xs uppercase tracking-[0.2em] text-brass">
