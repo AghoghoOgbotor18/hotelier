@@ -8,7 +8,13 @@ export default function Home(){
   return (
     <>
       <Hero />
-      <BookingSearchBar />
+
+      <div className="relative z-20 px-4 -mt-28 sm:-mt-28 lg:-mt-10 pointer-events-none">
+        <div className="mx-auto w-full max-w-5xl pointer-events-auto">
+          <BookingSearchBar />
+        </div>
+      </div>
+
       <About />
       <Bookings />
     </>
