@@ -3,6 +3,8 @@ import Bookings from "./components/Home/Bookings";
 import BookingSearchBar from "./components/Home/BookingSearchBar";
 import Hero from "./components/Home/Hero";
 import Rooms from "./components/Home/Rooms";
+import Services from "./components/Home/Services";
+
 
 export default function Home(){
 
@@ -19,6 +21,7 @@ export default function Home(){
       <About />
       <Rooms />
       <Bookings />
+      <Services />
     </>
   )
 
