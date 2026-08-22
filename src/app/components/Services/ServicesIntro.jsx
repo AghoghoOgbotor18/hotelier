@@ -3,7 +3,7 @@ import ServicesCards from './ServicesCards';
 export default function ServicesSection() {
     return (
         <section className="bg-background px-8 py-24 md:px-16">
-            <div className="mx-auto max-w-6xl">
+            <div className="mx-auto max-w-9xl">
                 <div className="mx-auto mb-16 max-w-xl text-center">
                     <div className="mb-3 font-mono text-xs uppercase tracking-[0.2em] text-brass">
                         What We Offer
