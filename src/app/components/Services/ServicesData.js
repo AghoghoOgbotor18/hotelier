@@ -41,6 +41,6 @@ export const services = [
         icon: <FaUsers />,
         title: 'Events & Meetings',
         desc: 'Flexible spaces for small gatherings, meetings, and private celebrations.',
-        image: '/images/events.webp',
+        image: '/images/event.webp',
     },
 ];

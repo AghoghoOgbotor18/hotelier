@@ -43,8 +43,8 @@ export default function GalleryGrid() {
     }, [isOpen]);
 
     return (
-        <section className="bg-background px-8 py-24 md:px-16">
-        <div className="mx-auto max-w-6xl">
+        <section className="bg-background px-4 py-24 md:px-16">
+        <div className="mx-auto max-w-9xl">
             <div className="mx-auto mb-14 max-w-xl text-center">
             <div className="mb-3 font-mono text-xs uppercase tracking-[0.2em] text-brass">
                 Gallery
