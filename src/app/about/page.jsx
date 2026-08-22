@@ -1,6 +1,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
-import AboutHero from "../components/About/AboutHero"
+import PageHero from "../components/PageHero"
+import PageCta from '../components/PageCta';
 
 const values = [
     {
@@ -20,7 +21,7 @@ const values = [
     export default function AboutPage() {
     return (
         <>
-            <AboutHero />
+            <PageHero title="About" />
 
             {/* Story */}
             <section className="bg-background px-8 py-24 md:px-16">
@@ -85,20 +86,12 @@ const values = [
             </section>
 
             {/* Closing CTA */}
-            <section className="bg-background px-8 py-20 text-center md:px-16">
-                <h3 className="font-display text-3xl font-medium text-ink md:text-4xl">
-                See it for yourself.
-                </h3>
-                <p className="mx-auto mt-3 max-w-md font-sans text-sm text-stone">
-                Browse our rooms and find the one that fits your stay.
-                </p>
-                <Link
-                href="/rooms"
-                className="mt-8 inline-block rounded-sm bg-ink px-8 py-3.5 font-sans text-sm font-semibold uppercase tracking-wide text-ivory transition hover:bg-brass hover:text-ink"
-                >
-                View Rooms
-                </Link>
-            </section>
+            <PageCta
+                title="See it for yourself."
+                subtitle="Browse our rooms and find the one that fits your stay."
+                buttonText="View Rooms"
+                buttonHref="/rooms"
+            />
         </>
     );
 }
