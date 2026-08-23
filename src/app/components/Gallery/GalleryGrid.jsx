@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { FaChevronLeft, FaChevronRight, FaTimes } from 'react-icons/fa';
+import { FaArrowDown, FaChevronLeft, FaChevronRight, FaTimes } from 'react-icons/fa';
 import { galleryImages } from './GalleryData';
 
 export default function GalleryGrid() {
@@ -58,24 +58,28 @@ export default function GalleryGrid() {
             </div>
 
             <div className="columns-1 gap-4 sm:columns-2 lg:columns-3">
-            {galleryImages.map((img, index) => (
-                <button
-                key={img.id}
-                onClick={() => openAt(index)}
-                className="group relative mb-4 block w-full break-inside-avoid overflow-hidden rounded-md"
-                >
-                    <img
-                        src={img.src}
-                        alt={img.alt}
-                        className="w-full object-cover transition duration-500 group-hover:scale-105 group-active:scale-105"
-                    />
-                    <div className="absolute inset-0 bg-linear-to-t from-ink/80 via-ink/0 to-ink/0 transition group-hover:from-ink/90" />
+                <p className='animate-pulse text-xs flex items-center gap-1.5 mb-2'>
+                    click for a better view
+                    <FaArrowDown />
+                </p>
+                {galleryImages.map((img, index) => (
+                    <button
+                    key={img.id}
+                    onClick={() => openAt(index)}
+                    className="group relative mb-4 block w-full break-inside-avoid overflow-hidden rounded-md"
+                    >
+                        <img
+                            src={img.src}
+                            alt={img.alt}
+                            className="w-full object-cover transition duration-500 group-hover:scale-105 group-active:scale-105"
+                        />
+                        <div className="absolute inset-0 bg-linear-to-t from-ink/80 via-ink/0 to-ink/0 transition group-hover:from-ink/90" />
 
-                    <span className="absolute inset-x-0 bottom-0 p-4 text-left font-sans text-sm text-ivory opacity-0 transition-opacity duration-300 group-hover:opacity-100 group-active:opacity-100">
-                        {img.alt}
-                    </span>
-                </button>
-            ))}
+                        <span className="absolute inset-x-0 bottom-0 p-4 text-left font-sans text-sm text-ivory opacity-0 transition-opacity duration-300 group-hover:opacity-100 group-active:opacity-100">
+                            {img.alt}
+                        </span>
+                    </button>
+                ))}
             </div>
         </div>
 
