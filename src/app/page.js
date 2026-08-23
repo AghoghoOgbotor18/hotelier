@@ -1,3 +1,4 @@
+import GalleryGrid from "./components/Gallery/GalleryGrid";
 import About from "./components/Home/About";
 import Bookings from "./components/Home/Bookings";
 import BookingSearchBar from "./components/Home/BookingSearchBar";
@@ -25,6 +26,7 @@ export default function Home(){
       <Rooms />
       <Bookings />
       <Services />
+      <GalleryGrid />
       <Testimonials />
       <Faq />
       <ContactCta />

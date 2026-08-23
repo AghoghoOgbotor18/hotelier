@@ -21,7 +21,7 @@ export default function Rooms() {
             </p>
             </div>
 
-            <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-4">
+            <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 md:grid-cols-3">
             {rooms.map((room) => (
                 <RoomCard key={room.slug} room={room} />
             ))}

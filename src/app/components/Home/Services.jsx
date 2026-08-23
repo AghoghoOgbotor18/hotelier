@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import { FaSpa, FaUtensils, FaShuttleVan, FaTshirt, FaConciergeBell, FaUsers } from 'react-icons/fa';
+import ServicesCards from '../Services/ServicesCards';
 
 const services = [
     {
@@ -53,25 +54,7 @@ export default function Services() {
                 </p>
                 </div>
 
-                <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-                {services.map((s) => (
-                    <Link
-                    key={s.title}
-                    href="/services"
-                    className="group flex flex-col rounded-md border border-ink/10 bg-white p-7 transition hover:border-brass/40 hover:shadow-md"
-                    >
-                    <span className="flex h-11 w-11 items-center justify-center rounded-full border border-brass/40 text-lg text-brass">
-                        {s.icon}
-                    </span>
-                    <h3 className="mt-5 font-display text-lg font-medium text-ink">{s.title}</h3>
-                    <p className="mt-2 flex-1 font-sans text-sm leading-relaxed text-stone">{s.desc}</p>
-                    <span className="mt-4 font-mono text-[11px] uppercase tracking-wide text-brass opacity-0 transition group-hover:opacity-100">
-                        Learn more &rarr;
-                    </span>
-                    </Link>
-                ))}
-                </div>
-
+                <ServicesCards />
                 <div className="mt-14 flex justify-center">
                     <Link
                         href="/services"
