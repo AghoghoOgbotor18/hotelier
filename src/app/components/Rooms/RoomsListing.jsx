@@ -4,7 +4,7 @@ import { rooms } from "./RoomsData";
 export default function RoomsListing() {
     return (
         <section className="bg-background px-8 py-24 md:px-16">
-            <div className="mx-auto max-w-6xl">
+            <div className="mx-auto max-w-9xl">
                 <div className="mb-14 flex flex-col items-center justify-center gap-4 text-center">
                     <div>
                         <div className="mb-3 font-mono text-xs uppercase tracking-[0.2em] text-brass">
