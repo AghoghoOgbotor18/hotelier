@@ -18,7 +18,7 @@ export const rooms = [
         size: '34m²',
         guests: 3,
         price: 78000,
-        image: '/images/terrace.jpg',
+        image: '/images/terrace.webp',
         status: 'low',
     },
     {
@@ -86,5 +86,16 @@ export const rooms = [
         price: 145000,
         image: '/images/penthouse.webp',
         status: 'booked',
+    },
+    {
+        slug: 'family-suite',
+        code: 'RM-09',
+        name: 'Family Suite',
+        description: 'Two connecting bedrooms with a shared living area, built for families or small groups traveling together.',
+        size: '52m²',
+        guests: 5,
+        price: 128000,
+        image: '/images/familyroom.webp',
+        status: 'available',
     },
 ];
