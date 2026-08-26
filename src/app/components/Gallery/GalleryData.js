@@ -3,7 +3,7 @@ export const galleryImages = [
   { id: 2, src: '/images/courtyard.webp', alt: 'Courtyard Room' },
   { id: 3, src: '/images/finedining.webp', alt: 'Restaurant' },
   { id: 4, src: '/images/poolarea.webp', alt: 'Pool area' },
-  { id: 5, src: '/images/terrace.jpg', alt: 'Terrace Suite' },
+  { id: 5, src: '/images/terrace.webp', alt: 'Terrace Suite' },
   { id: 6, src: '/images/hero2.webp', alt: 'Lobby' },
   { id: 7, src: '/images/spa.webp', alt: 'Spa treatment room' },
   { id: 8, src: '/images/garden.webp', alt: 'Garden view' },
