@@ -21,9 +21,29 @@ export default function BookingSearchBar() {
     const [rooms, setRooms] = useState(1);
     const [adults, setAdults] = useState(2);
     const [children, setChildren] = useState(0);
+    const [dateError, setDateError] = useState('');
+
+    // YYYY-MM-DD, matches the format date inputs use — also doubles
+    // as the `min` value so the native picker won't even show past
+    // dates as an option.
+    const today = new Date().toISOString().split('T')[0];
 
     function handleCheck(e) {
         e.preventDefault();
+
+        // The `min` attributes below only guide the native date picker
+        // UI — they don't stop someone from typing a date directly, so
+        // these are the real checks.
+        if (checkIn && checkIn < today) {
+            setDateError('Arrival date can\u2019t be in the past.');
+            return;
+        }
+        if (checkIn && checkOut && new Date(checkOut) <= new Date(checkIn)) {
+            setDateError('Departure date must be after your arrival date.');
+            return;
+        }
+        setDateError('');
+
         const params = new URLSearchParams({
         checkIn,
         checkOut,
@@ -35,9 +55,10 @@ export default function BookingSearchBar() {
     }
 
     return (
+        <div className="rounded-lg border border-brass/15 bg-ink/95 shadow-2xl backdrop-blur-xl">
         <form
         onSubmit={handleCheck}
-        className="grid grid-cols-2 gap-x-6 gap-y-5 rounded-lg border border-brass/15 bg-ink/95 p-6 shadow-2xl backdrop-blur-xl sm:grid-cols-3 lg:flex lg:items-center lg:gap-0 lg:p-3"
+        className="grid grid-cols-2 gap-x-6 gap-y-5 p-6 sm:grid-cols-3 lg:flex lg:items-center lg:gap-0 lg:p-3"
         >
         {/* Arrival */}
         <label className="flex flex-col gap-1.5 lg:flex-1 lg:border-r lg:border-ivory/10 lg:px-5 lg:py-2">
@@ -45,8 +66,12 @@ export default function BookingSearchBar() {
             <input
             type="date"
             required
+            min={today}
             value={checkIn}
-            onChange={(e) => setCheckIn(e.target.value)}
+            onChange={(e) => {
+                setCheckIn(e.target.value);
+                if (dateError) setDateError('');
+            }}
             className="appearance-auto bg-transparent font-sans text-sm text-ivory outline-none [color-scheme:dark]"
             />
         </label>
@@ -59,7 +84,10 @@ export default function BookingSearchBar() {
             required
             min={checkIn || undefined}
             value={checkOut}
-            onChange={(e) => setCheckOut(e.target.value)}
+            onChange={(e) => {
+                setCheckOut(e.target.value);
+                if (dateError) setDateError('');
+            }}
             className="appearance-auto bg-transparent font-sans text-sm text-ivory outline-none [color-scheme:dark]"
             />
         </label>
@@ -120,5 +148,12 @@ export default function BookingSearchBar() {
             Check
         </button>
         </form>
+
+        {dateError && (
+            <p className="border-t border-booked/20 bg-booked/10 px-6 py-2.5 font-sans text-xs text-booked">
+                {dateError}
+            </p>
+        )}
+        </div>
     );
 }
