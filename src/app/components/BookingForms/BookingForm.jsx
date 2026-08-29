@@ -210,7 +210,7 @@ export default function BookingForm({ slug, pricePerNight }) {
             <button
                 type="submit"
                 disabled={isSubmitting}
-                className="mt-2 flex items-center justify-center gap-2 rounded-sm bg-ink py-3 font-sans text-sm font-semibold uppercase tracking-wide text-ivory transition hover:bg-brass hover:text-ink disabled:opacity-70"
+                className="mt-2 flex items-center justify-center gap-2 rounded-sm bg-ink py-3 font-sans text-sm font-semibold uppercase tracking-wide text-ivory transition hover:bg-brass hover:text-ink disabled:opacity-70 disabled:cursor-not-allowed"
             >
                 {isSubmitting ? (
                 <>
