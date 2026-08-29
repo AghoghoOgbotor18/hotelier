@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import Link from 'next/link';
 
 export default function BookingForm({ slug, pricePerNight }) {
     const [checkIn, setCheckIn] = useState('');
@@ -12,6 +13,8 @@ export default function BookingForm({ slug, pricePerNight }) {
     const [bookingCode, setBookingCode] = useState('');
     const [errorMsg, setErrorMsg] = useState('');
 
+    const today = new Date().toISOString().split('T')[0];
+
     const nights =
         checkIn && checkOut
         ? Math.max(0, Math.round((new Date(checkOut) - new Date(checkIn)) / 86400000))
@@ -20,6 +23,20 @@ export default function BookingForm({ slug, pricePerNight }) {
 
     async function handleSubmit(e) {
         e.preventDefault();
+        setErrorMsg('');
+
+        // Real checks — the `min` attributes on the inputs below only
+        // guide the native date picker, they don't stop someone typing
+        // a date directly.
+        if (checkIn < today) {
+        setErrorMsg('Arrival date can\u2019t be in the past.');
+        return;
+        }
+        if (new Date(checkOut) <= new Date(checkIn)) {
+            setErrorMsg('Check-out must be after check-in — same-day isn\u2019t a valid stay.');
+            return;
+        }
+
         setStep('submitting');
 
         try {
@@ -27,12 +44,12 @@ export default function BookingForm({ slug, pricePerNight }) {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
-                    slug,
-                    check_in: checkIn,
-                    check_out: checkOut,
-                    guest_name: name,
-                    guest_email: email,
-                    guest_phone: phone,
+                slug,
+                check_in: checkIn,
+                check_out: checkOut,
+                guest_name: name,
+                guest_email: email,
+                guest_phone: phone,
                 }),
             });
 
@@ -50,10 +67,10 @@ export default function BookingForm({ slug, pricePerNight }) {
 
             setBookingCode(data.booking.booking_code);
             setStep('success');
-            } catch {
+        } catch {
             setErrorMsg('Network error — please try again');
             setStep('error');
-            }
+        }
     }
 
     if (step === 'success') {
@@ -76,29 +93,39 @@ export default function BookingForm({ slug, pricePerNight }) {
                 <p className="font-sans text-sm text-ink">
                 This room is fully booked for those dates.
                 </p>
+                <div className="mt-3 flex flex-wrap justify-center gap-3">
                 <button
-                onClick={() => setStep('form')}
-                className="mt-3 rounded-sm border border-ink/15 px-5 py-2 font-sans text-sm text-ink"
+                    onClick={() => setStep('form')}
+                    className="rounded-sm border border-ink/15 px-5 py-2 font-sans text-sm text-ink"
                 >
-                Try different dates or choose a different room.
+                    Try different dates
                 </button>
+                <Link
+                    href="/rooms"
+                    className="rounded-sm bg-ink px-5 py-2 font-sans text-sm text-ivory transition hover:bg-brass hover:text-ink"
+                >
+                    Go to Rooms
+                </Link>
+                </div>
             </div>
         );
     }
 
     if (step === 'error') {
         return (
-        <div className="flex flex-col items-center gap-3 rounded-md border border-booked/30 bg-white p-8 text-center shadow-sm">
-            <p className="font-sans text-sm text-booked">{errorMsg}</p>
-            <button
-            onClick={() => setStep('form')}
-            className="mt-2 rounded-sm border border-ink/15 px-5 py-2 font-sans text-sm text-ink"
-            >
-            Try again
-            </button>
-        </div>
+            <div className="flex flex-col items-center gap-3 rounded-md border border-booked/30 bg-white p-8 text-center shadow-sm">
+                <p className="font-sans text-sm text-booked">{errorMsg}</p>
+                <button
+                onClick={() => setStep('form')}
+                className="mt-2 rounded-sm border border-ink/15 px-5 py-2 font-sans text-sm text-ink"
+                >
+                Try again
+                </button>
+            </div>
         );
     }
+
+    const isSubmitting = step === 'submitting';
 
     return (
         <form
@@ -113,6 +140,7 @@ export default function BookingForm({ slug, pricePerNight }) {
                 <input
                     type="date"
                     required
+                    min={today}
                     value={checkIn}
                     onChange={(e) => setCheckIn(e.target.value)}
                     className="appearance-auto rounded-sm border border-ink/15 px-3 py-2 text-sm text-ink"
@@ -123,13 +151,19 @@ export default function BookingForm({ slug, pricePerNight }) {
                 <input
                     type="date"
                     required
-                    min={checkIn || undefined}
+                    min={checkIn || today}
                     value={checkOut}
                     onChange={(e) => setCheckOut(e.target.value)}
                     className="appearance-auto rounded-sm border border-ink/15 px-3 py-2 text-sm text-ink"
                 />
                 </label>
             </div>
+
+            {errorMsg && (
+                <p className="rounded-sm bg-booked/10 px-3 py-2 font-sans text-xs text-booked">
+                {errorMsg}
+                </p>
+            )}
 
             <label className="flex flex-col gap-1 text-xs text-stone">
                 Full name
@@ -166,19 +200,26 @@ export default function BookingForm({ slug, pricePerNight }) {
 
             {nights > 0 && (
                 <div className="flex items-center justify-between rounded-sm bg-ink/5 px-3 py-2.5 font-mono text-sm">
-                <span className="text-stone">
-                    {nights} night{nights > 1 ? 's' : ''}
-                </span>
-                <span className="text-ink">&#8358;{total.toLocaleString()}</span>
+                    <span className="text-stone">
+                        {nights} night{nights > 1 ? 's' : ''}
+                    </span>
+                    <span className="text-ink">&#8358;{total.toLocaleString()}</span>
                 </div>
             )}
 
             <button
                 type="submit"
-                disabled={step === 'submitting'}
-                className="mt-2 rounded-sm bg-ink py-3 font-sans text-sm font-semibold uppercase tracking-wide text-ivory transition hover:bg-brass hover:text-ink disabled:opacity-60"
+                disabled={isSubmitting}
+                className="mt-2 flex items-center justify-center gap-2 rounded-sm bg-ink py-3 font-sans text-sm font-semibold uppercase tracking-wide text-ivory transition hover:bg-brass hover:text-ink disabled:opacity-70"
             >
-                {step === 'submitting' ? 'Checking availability…' : 'Book Now'}
+                {isSubmitting ? (
+                <>
+                    <span className="h-4 w-4 animate-spin rounded-full border-2 border-ivory border-t-transparent" />
+                    Checking availability…
+                </>
+                ) : (
+                'Book Now'
+                )}
             </button>
         </form>
     );
