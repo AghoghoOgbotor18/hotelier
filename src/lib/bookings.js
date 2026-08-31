@@ -1,22 +1,26 @@
 import { createAdminClient } from './supabase/admin';
+import { sendBookingConfirmationEmail } from './email';
+import { sendBookingConfirmationSms } from './sms';
 
-// Confirms a booking after a successful payment. Safe to call more
-// than once with the same reference — the WHERE status = 'pending'
-// clause means a second call (e.g. a retried webhook, or the guest's
-// redirect landing after the webhook already ran) simply updates
-// zero rows instead of erroring or double-confirming.
-//
-// Returns one of:
-//   'confirmed'      — this call actually confirmed the booking
-//   'already_done'   — booking was already confirmed (idempotent no-op)
-//   'not_found'      — no booking with this reference exists
-//   'amount_mismatch'— paid amount doesn't match what we expected
+async function getRoomInfo(supabase, roomId) {
+    const { data } = await supabase
+        .from('rooms')
+        .select('room_number, room_types(name)')
+        .eq('id', roomId)
+        .single();
+
+    return {
+        roomName: data?.room_types?.name || 'your room',
+        roomNumber: data?.room_number || '—',
+    };
+}
+
 export async function confirmBookingPayment({ reference, amountPaidKobo }) {
     const supabase = createAdminClient();
 
     const { data: booking, error: findError } = await supabase
         .from('bookings')
-        .select('id, booking_code, total_price, status')
+        .select('id, booking_code, total_price, status, room_id, guest_name, guest_email, guest_phone, check_in, check_out')
         .eq('booking_code', reference)
         .single();
 
@@ -24,21 +28,22 @@ export async function confirmBookingPayment({ reference, amountPaidKobo }) {
         return { result: 'not_found' };
     }
 
-    // Sanity-check the amount actually paid against what we expected.
-    // The webhook's signature already proves the request genuinely
-    // came from Paystack, but this catches a mismatched/stale
-    // reference being replayed against the wrong booking.
     const expectedKobo = Math.round(Number(booking.total_price) * 100);
     if (amountPaidKobo !== expectedKobo) {
         return { result: 'amount_mismatch', booking };
     }
 
     if (booking.status !== 'pending') {
-        // Already confirmed (or cancelled/expired) — nothing to do.
-        // If it's 'expired', the guest paid too late and the hold on
-        // the room may have already gone to someone else; that case
-        // needs a manual refund/follow-up, which isn't automated here.
-        return { result: booking.status === 'confirmed' ? 'already_done' : booking.status, booking };
+        // Already confirmed (most likely by the webhook, which usually
+        // wins the race against the guest's browser redirect) — or
+        // cancelled/expired. Either way, no notification gets sent from
+        // here (that only happens on a genuine first confirmation,
+        // below) — but we still fetch room info so the page can show it
+        // regardless of which path actually did the confirming.
+        const roomInfo = booking.status === 'confirmed'
+        ? await getRoomInfo(supabase, booking.room_id)
+        : {};
+        return { result: booking.status === 'confirmed' ? 'already_done' : booking.status, booking, ...roomInfo };
     }
 
     const { data: updated, error: updateError } = await supabase
@@ -49,16 +54,46 @@ export async function confirmBookingPayment({ reference, amountPaidKobo }) {
         paid_at: new Date().toISOString(),
         })
         .eq('id', booking.id)
-        .eq('status', 'pending') // the atomic idempotency guard
+        .eq('status', 'pending')
         .select('id')
         .single();
 
     if (updateError || !updated) {
-        // Someone else's request won the race between our read above and
-        // this write (e.g. webhook and redirect-page both landed at the
-        // same moment) — that's fine, it just means it's already confirmed.
-        return { result: 'already_done', booking };
+        // Lost the race to another simultaneous call.
+        const roomInfo = await getRoomInfo(supabase, booking.room_id);
+        return { result: 'already_done', booking, ...roomInfo };
     }
 
-    return { result: 'confirmed', booking };
+    // We won the race — this call is the ONE genuine confirmation.
+    const { roomName, roomNumber } = await getRoomInfo(supabase, booking.room_id);
+
+    // Notifications are best-effort: if email or SMS sending fails,
+    // the booking is still validly confirmed and paid for. We log the
+    // failure rather than let it undo or block the confirmation — a
+    // guest whose card was charged should never see "booking failed"
+    // just because a text message didn't send.
+    const notifyPayload = {
+        guestName: booking.guest_name,
+        guestEmail: booking.guest_email,
+        guestPhone: booking.guest_phone,
+        bookingCode: booking.booking_code,
+        roomName,
+        roomNumber,
+        checkIn: booking.check_in,
+        checkOut: booking.check_out,
+    };
+
+    try {
+        await sendBookingConfirmationEmail(notifyPayload);
+    } catch (err) {
+        console.error('Booking confirmation email failed:', err.message, booking.booking_code);
+    }
+
+    try {
+        await sendBookingConfirmationSms(notifyPayload);
+    } catch (err) {
+        console.error('Booking confirmation SMS failed:', err.message, booking.booking_code);
+    }
+
+    return { result: 'confirmed', booking, roomName, roomNumber };
 }

@@ -65,6 +65,14 @@ export default async function BookingConfirmPage({ searchParams }) {
         <Result title="Booking confirmed" tone="success">
         <p>Your Booking ID is</p>
         <p className="mt-1 font-mono text-2xl text-brass">{reference}</p>
+        {outcome.roomNumber && (
+            <p className="mt-2 font-sans text-sm text-ivory/60">
+                {outcome.roomName} &mdash; Room {outcome.roomNumber}
+            </p>
+        )}
+        <p className="mt-4 font-sans text-xs text-ivory/50">
+            A confirmation email and text message have also been sent to you.
+        </p>
         <Link
             href="/rooms"
             className="mt-6 inline-block rounded-sm bg-brass px-6 py-3 font-sans text-sm font-semibold text-ink transition hover:opacity-90"
@@ -78,9 +86,9 @@ export default async function BookingConfirmPage({ searchParams }) {
 function Result({ title, tone, children }) {
     return (
         <section className="flex min-h-[60vh] flex-col items-center justify-center bg-ink px-8 py-20 text-center">
-            <span className={`h-2 w-2 rounded-full ${tone === 'success' ? 'bg-avail' : 'bg-booked'}`} />
-            <h1 className="mt-4 font-display text-2xl font-medium text-ivory">{title}</h1>
-            <div className="mt-3 max-w-md font-sans text-sm leading-relaxed text-ivory/60">{children}</div>
+        <span className={`h-2 w-2 rounded-full ${tone === 'success' ? 'bg-avail' : 'bg-booked'}`} />
+        <h1 className="mt-4 font-display text-2xl font-medium text-ivory">{title}</h1>
+        <div className="mt-3 max-w-md font-sans text-sm leading-relaxed text-ivory/60">{children}</div>
         </section>
     );
 }
