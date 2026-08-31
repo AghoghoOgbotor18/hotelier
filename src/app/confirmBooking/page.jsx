@@ -18,10 +18,6 @@ export default async function BookingConfirmPage({ searchParams }) {
     try {
         verification = await verifyTransaction(reference);
     } catch (err) {
-        // Log the real reason — the message shown to the guest stays
-        // generic on purpose, but you need to see the actual cause in
-        // your server logs (terminal locally, or your host's log viewer
-        // once deployed) to debug it.
         console.error('Paystack verify failed:', err.message);
         return (
         <Result title="Couldn't verify payment" tone="error">
@@ -41,12 +37,6 @@ export default async function BookingConfirmPage({ searchParams }) {
         );
     }
 
-    // Belt-and-braces: the webhook is the real source of truth and has
-    // most likely already confirmed this booking by the time the guest
-    // gets redirected back here. Calling this again is always safe —
-    // see the idempotency note in lib/bookings.js — so this just
-    // covers the case where the webhook is slow or hasn't arrived yet,
-    // giving the guest an immediate confirmed state either way.
     const outcome = await confirmBookingPayment({
         reference,
         amountPaidKobo: verification.amount,
@@ -56,7 +46,7 @@ export default async function BookingConfirmPage({ searchParams }) {
         return (
         <Result title="Booking not found" tone="error">
             Your payment succeeded, but we couldn&rsquo;t match it to a booking. Please
-            contact the front desk with this reference: <strong>{reference}</strong>
+            contact the front desk with this reference: <strong className="text-ivory">{reference}</strong>
         </Result>
         );
     }
@@ -66,7 +56,7 @@ export default async function BookingConfirmPage({ searchParams }) {
         <Result title="Payment received, but the hold expired" tone="error">
             Your payment succeeded, but the 15-minute hold on this room had already
             expired. Please contact the front desk with this reference for a refund or
-            rebooking: <strong>{reference}</strong>
+            rebooking: <strong className="text-ivory">{reference}</strong>
         </Result>
         );
     }
@@ -74,10 +64,10 @@ export default async function BookingConfirmPage({ searchParams }) {
     return (
         <Result title="Booking confirmed" tone="success">
         <p>Your Booking ID is</p>
-        <p className="mt-1 font-mono text-2xl text-ink">{reference}</p>
+        <p className="mt-1 font-mono text-2xl text-brass">{reference}</p>
         <Link
             href="/rooms"
-            className="mt-6 inline-block rounded-sm bg-ink px-6 py-3 font-sans text-sm text-ivory transition hover:bg-brass hover:text-ink"
+            className="mt-6 inline-block rounded-sm bg-brass px-6 py-3 font-sans text-sm font-semibold text-ink transition hover:opacity-90"
         >
             Browse more rooms
         </Link>
@@ -87,10 +77,10 @@ export default async function BookingConfirmPage({ searchParams }) {
 
 function Result({ title, tone, children }) {
     return (
-        <section className="flex min-h-[60vh] flex-col items-center justify-center bg-background px-8 py-20 text-center">
-        <span className={`h-2 w-2 rounded-full ${tone === 'success' ? 'bg-avail' : 'bg-booked'}`} />
-        <h1 className="mt-4 font-display text-2xl font-medium text-ink">{title}</h1>
-        <div className="mt-3 max-w-md font-sans text-sm leading-relaxed text-stone">{children}</div>
+        <section className="flex min-h-[60vh] flex-col items-center justify-center bg-ink px-8 py-20 text-center">
+            <span className={`h-2 w-2 rounded-full ${tone === 'success' ? 'bg-avail' : 'bg-booked'}`} />
+            <h1 className="mt-4 font-display text-2xl font-medium text-ivory">{title}</h1>
+            <div className="mt-3 max-w-md font-sans text-sm leading-relaxed text-ivory/60">{children}</div>
         </section>
     );
 }
