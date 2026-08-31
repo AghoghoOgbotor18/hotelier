@@ -1,10 +1,21 @@
-import { Resend } from 'resend';
+import nodemailer from 'nodemailer';
 
-const resend = new Resend(process.env.RESEND_API_KEY);
+// Using Gmail SMTP instead of Resend for this project — Resend's
+// free-tier sandbox domain only allows sending to the account
+// owner's own email, which blocks real recruiters/testers from
+// receiving a confirmation to their own inbox. Gmail SMTP sends to
+// anyone, at the cost of a small disclaimer in the email itself (see
+// below) being honest about it being a personal account, not a
+// verified business domain.
+const transporter = nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+        user: process.env.GMAIL_USER,
+        pass: process.env.GMAIL_APP_PASSWORD,
+    },
+    });
 
-// Sent once a booking actually moves to 'confirmed' — never on
-// creation, since a 'pending' booking might never get paid for.
-export async function sendBookingConfirmationEmail({
+    export async function sendBookingConfirmationEmail({
     guestName,
     guestEmail,
     bookingCode,
@@ -12,11 +23,11 @@ export async function sendBookingConfirmationEmail({
     roomNumber,
     checkIn,
     checkOut,
-}) {
+    }) {
     const firstName = (guestName || 'there').split(' ')[0];
 
-    await resend.emails.send({
-        from: 'Hotelier <onboarding@resend.dev>',
+    await transporter.sendMail({
+        from: `"Hotelier" <${process.env.GMAIL_USER}>`,
         to: guestEmail,
         subject: `Booking confirmed — ${bookingCode}`,
         html: `
@@ -30,7 +41,13 @@ export async function sendBookingConfirmationEmail({
             <tr><td style="padding:8px 0; color:#6B6455;">Check-out</td><td style="padding:8px 0;">${checkOut}</td></tr>
             </table>
             <p>Show this email or just give your name and Booking ID at the front desk to check in.</p>
-            <p style="color:#6B6455; font-size:13px;">Hotelier &middot; Port Harcourt</p>
+            <hr style="border:none; border-top:1px solid #eee; margin:24px 0;" />
+            <p style="color:#9a9488; font-size:11px; line-height:1.5;">
+            Hotelier is a portfolio/case-study project, not a real hotel booking. This
+            email was sent via a personal Gmail account rather than a verified business
+            domain, since this project doesn't have one yet — sent purely to demonstrate
+            the booking flow working end to end.
+            </p>
         </div>
         `,
     });
