@@ -39,7 +39,11 @@ export async function POST(req) {
             email: booking.guest_email,
             amountNaira: Number(booking.total_price),
             reference: booking.booking_code, // our code IS the Paystack reference
-            callbackUrl: `${origin}/confirmBooking?reference=${booking.booking_code}`,
+            // No query string here on purpose — Paystack appends its own
+            // ?reference=...&trxref=... to whatever URL we give it, so
+            // adding our own ?reference=... too creates a DUPLICATE
+            // reference param, which breaks reading it back correctly.
+            callbackUrl: `${origin}/confirmBooking`,
         });
 
         return NextResponse.json({ authorization_url: transaction.authorization_url });
