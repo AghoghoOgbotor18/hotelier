@@ -33,10 +33,9 @@ export default function About() {
                     <div className="mt-10 flex flex-col gap-6">
                         {highlights.map((h, i) => (
                         <div key={h.label} className="flex gap-4">
-                            <span className="mt-0.5 font-mono text-xs text-brass">0{i + 1}</span>
                             <div>
-                            <div className="font-sans text-sm font-semibold text-ink">{h.label}</div>
-                            <p className="mt-1 font-sans text-sm leading-relaxed text-stone">{h.desc}</p>
+                                <div className="font-sans text-sm font-semibold text-ink">{h.label}</div>
+                                <p className="mt-1 font-sans text-sm leading-relaxed text-stone">{h.desc}</p>
                             </div>
                         </div>
                         ))}

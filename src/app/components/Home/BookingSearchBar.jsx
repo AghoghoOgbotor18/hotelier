@@ -54,13 +54,11 @@ export default function BookingSearchBar() {
         children: String(children),
         });
         router.push(`/rooms?${params.toString()}`);
-        // isLoading is intentionally left true here — the page is
-        // navigating away, so this component is about to unmount
-        // along with the old page anyway. No need to reset it.
+        /* isLoading is intentionally left true here because the page is navigating away, so this component is about to unmount along with the old page anyway. No need to reset it. */
     }
 
     return (
-        <div className="rounded-lg border border-brass/15 bg-ink/95 shadow-2xl backdrop-blur-xl">
+        <div className="rounded-lg border border-brass/15 bg-ink/95 shadow-2xl backdrop-blur-xl" id="bookingField">
             <form
                 onSubmit={handleCheck}
                 className="grid grid-cols-2 gap-x-6 gap-y-5 p-6 sm:grid-cols-3 lg:flex lg:items-center lg:gap-0 lg:p-3"

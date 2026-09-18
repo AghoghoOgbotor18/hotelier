@@ -52,12 +52,10 @@ export default function Hero() {
             </p>
 
             <div className="mt-9 flex flex-wrap items-center justify-center gap-4">
-            <Link href="/reservations" className="rounded-sm bg-brass px-7 py-3.5 font-sans text-sm font-semibold uppercase tracking-wide text-ink transition hover:opacity-90">
-                Book Your Stay
-            </Link>
-            <Link href="/rooms" className="rounded-sm border border-ivory/30 px-7 py-3.5 font-sans text-sm text-ivory transition hover:border-ivory/70">
-                View Rooms
-            </Link>
+                <Link href="/rooms" className="rounded-sm bg-brass px-7 py-3.5 font-sans text-sm font-semibold uppercase tracking-wide text-ink transition hover:opacity-90">
+                    Book Your Stay
+                </Link>
+            
             </div>
 
             <div className="mt-8 flex gap-2">
